@@ -1,4 +1,6 @@
 import 'package:fake_commerce/src/core/router/routers.dart';
+import 'package:fake_commerce/src/feature/blog/presentation/pages/blogs_list_page.dart';
+import 'package:fake_commerce/src/feature/dashboard_page.dart/dashboard_page.dart';
 import 'package:fake_commerce/src/feature/product/details/presentation/pages/product_details_page.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/pages/products_list_page.dart';
 import 'package:flutter/material.dart';
@@ -11,25 +13,47 @@ final GoRouter _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      name: Routes.productList.name,
+      name: Routes.dashboardPage.name,
       pageBuilder: (context, state) {
         return MaterialPage(
           key: state.pageKey,
-          child: const ProductListPage(),
+          child: const DashBoardPage(),
         );
       },
       routes: [
         GoRoute(
-          path: Routes.productList.name,
-          name: Routes.productDetails.name,
+          path: Routes.dashboardPage.name,
+          name: Routes.productList.name,
           pageBuilder: (context, state) {
             return MaterialPage(
               key: state.pageKey,
-              child: ProductDetailsPage(
-                productId: int.parse(state.queryParameters['id']!),
-              ),
+              child: const ProductListPage(),
             );
           },
+          routes: [
+            GoRoute(
+              path: Routes.productList.name,
+              name: Routes.productDetails.name,
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: ProductDetailsPage(
+                    productId: int.parse(state.queryParameters['id']!),
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.blogsList.name,
+              name: Routes.blogsList.name,
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: const BlogsListPage(),
+                );
+              },
+            ),
+          ],
         ),
       ],
     ),

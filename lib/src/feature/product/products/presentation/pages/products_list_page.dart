@@ -39,6 +39,16 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        actions: [
+          GestureDetector(
+              onTap: () {
+                _navigateToProductDetailsPage(context);
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(18.0),
+                child: Text('Blogs Page'),
+              ))
+        ],
       ),
       body: Column(
         children: [
@@ -76,6 +86,14 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
                   : const Center(child: Text('Error')),
         ],
       ),
+    );
+  }
+
+  void _navigateToProductDetailsPage(
+    BuildContext context,
+  ) {
+    context.goNamed(
+      Routes.blogsList.name,
     );
   }
 }
