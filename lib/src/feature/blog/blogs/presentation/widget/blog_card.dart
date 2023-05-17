@@ -5,18 +5,18 @@ class _BlogsCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BlogModel data = ref.watch(blogDataProvider);
+    BlogModel data = ref.read(blogDataProvider);
     return Column(
       children: [
         SizedBox(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
-              height: 100,
+              height: 80,
               child: Row(
                 children: [
                   SizedBox(
-                    width: 100,
+                    width: 80,
                     child: Image.network(
                       data.photo!,
                       width: 100,

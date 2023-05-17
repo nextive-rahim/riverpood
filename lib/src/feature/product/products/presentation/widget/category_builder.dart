@@ -22,6 +22,7 @@ class _CategoryBuilder extends ConsumerWidget {
             onTap: () {
               ref.read(selectedCategoryProvider.notifier).state =
                   categories[index];
+             
             },
             child: Container(
               padding: const EdgeInsets.symmetric(

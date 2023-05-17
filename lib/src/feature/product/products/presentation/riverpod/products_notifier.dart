@@ -21,11 +21,14 @@ class ProductsNotifier extends StateNotifier<BaseState> {
 
   List<ProductModel> _products = [];
 
-  Future<void> productList({bool hasFilter = false}) async {
+  Future<void> productList({
+    bool hasFilter = false,
+    bool isRefreshing = false,
+  }) async {
     if (hasFilter) {
       if (state is SuccessState) {
         String category = ref.read(selectedCategoryProvider);
-
+        print(category);
         if (category.isNotEmpty) {
           List<ProductModel> filteredProducts = _products
               .where((element) => element.category == category.toLowerCase())
@@ -43,29 +46,33 @@ class ProductsNotifier extends StateNotifier<BaseState> {
       }
     }
 
-    state = const LoadingState();
-    try {
-      final result = await useCase.productList();
-      result.fold(
-        (l) {
-          log(
-            'ProductsNotifier.productList',
-            error: l,
-          );
-          return state = ErrorState(data: l.toString());
-        },
-        (r) {
-          _products = r;
-          return state = SuccessState(data: r);
-        },
-      );
-    } catch (e, stacktrace) {
-      log(
-        'ProductsNotifier.productList',
-        error: e,
-        stackTrace: stacktrace,
-      );
-      state = ErrorState(data: e.toString());
+    if (state is SuccessState && isRefreshing == false) {
+      return;
+    } else {
+      state = const LoadingState();
+      try {
+        final result = await useCase.productList();
+        result.fold(
+          (l) {
+            log(
+              'ProductsNotifier.productList',
+              error: l,
+            );
+            return state = ErrorState(data: l.toString());
+          },
+          (r) {
+            _products = r;
+            return state = SuccessState(data: r);
+          },
+        );
+      } catch (e, stacktrace) {
+        log(
+          'ProductsNotifier.productList',
+          error: e,
+          stackTrace: stacktrace,
+        );
+        state = ErrorState(data: e.toString());
+      }
     }
   }
 }

@@ -4,13 +4,14 @@ import 'package:fake_commerce/src/feature/blog/root/data/blog_data_source_imp.da
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final blogDataSourceProvider = Provider<BlogDataSource>(
-  ((ref) {
+  ((ref) {  
     return BlogDataSourceImp(
-      client: ref.watch(dioProvider),
+      client: ref.read(dioProvider),
     );
   }),
 );
 
 abstract class BlogDataSource {
   Future<Response> blog();
+  
 }

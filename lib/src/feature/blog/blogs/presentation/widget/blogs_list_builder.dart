@@ -1,6 +1,5 @@
 part of '../pages/blogs_list_page.dart';
 
-
 class _BlogsListBuilder extends StatelessWidget {
   const _BlogsListBuilder({
     Key? key,

@@ -1,5 +1,5 @@
 import 'package:fake_commerce/src/core/router/routers.dart';
-import 'package:fake_commerce/src/feature/blog/presentation/pages/blogs_list_page.dart';
+import 'package:fake_commerce/src/feature/blog/blogs/presentation/pages/blogs_list_page.dart';
 import 'package:fake_commerce/src/feature/dashboard_page.dart/dashboard_page.dart';
 import 'package:fake_commerce/src/feature/product/details/presentation/pages/product_details_page.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/pages/products_list_page.dart';

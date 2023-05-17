@@ -11,8 +11,7 @@ class BlogDataSourceImp implements BlogDataSource {
   final Logger _logger = Logger();
   @override
   Future<Response> blog() async {
-    Response response =
-        await client.get('https://api.biddabari.com/api/posts');
+    Response response = await client.get('https://api.biddabari.com/api/posts');
     _logger.d(response.data);
     return response;
   }
