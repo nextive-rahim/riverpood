@@ -8,21 +8,24 @@ class _BlogsListBuilder extends StatelessWidget {
   final List<BlogModel> blogs;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemBuilder: ((context, index) {
-          return ProviderScope(overrides: [
-            blogDataProvider.overrideWithValue(
-              blogs[index],
-            ),
-          ], child: const _BlogsCard());
-        }),
-        separatorBuilder: (context, index) {
-          return const Divider();
-        },
-        itemCount: blogs.length,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: ((context, index) {
+            return ProviderScope(overrides: [
+              blogDataProvider.overrideWithValue(
+                blogs[index],
+              ),
+            ], child: const _BlogsCard());
+          }),
+          separatorBuilder: (context, index) {
+            return const Divider();
+          },
+          itemCount: blogs.length,
+        ),
       ),
     );
   }

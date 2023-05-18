@@ -13,22 +13,40 @@ class DashBoardPage extends ConsumerWidget {
         title: const Text('Dashboard Page'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            _navigateToProductDetailsPage(context);
-          },
-          child: const Text('Go To Products Page'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                _navigateToProductsPage(context);
+              },
+              child: const Text('Go To Products Page'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _navigateToBlogsPage(context);
+              },
+              child: const Text('Go To Blogs Page'),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  void _navigateToProductDetailsPage(
+  void _navigateToProductsPage(
     BuildContext context,
   ) {
     context.goNamed(
       Routes.productList.name,
-      queryParameters: <String, String>{},
+    );
+  }
+
+  void _navigateToBlogsPage(
+    BuildContext context,
+  ) {
+    context.goNamed(
+      Routes.blogsList.name,
     );
   }
 }

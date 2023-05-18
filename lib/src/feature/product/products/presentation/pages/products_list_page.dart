@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:fake_commerce/src/core/router/routers.dart';
 import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/category/presentation/provider/category_list_provider.dart';
@@ -10,7 +9,6 @@ import 'package:fake_commerce/src/feature/product/root/data/models/product_model
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 part '../widget/category_builder.dart';
 part '../widget/product_card.dart';
 part '../widget/product_list_builder.dart';
@@ -39,16 +37,6 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
-        actions: [
-          GestureDetector(
-              onTap: () {
-                _navigateToProductDetailsPage(context);
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(18.0),
-                child: Text('Blogs Page'),
-              ))
-        ],
       ),
       body: Column(
         children: [
@@ -87,14 +75,6 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
                   : const Center(child: Text('Error')),
         ],
       ),
-    );
-  }
-
-  void _navigateToProductDetailsPage(
-    BuildContext context,
-  ) {
-    context.goNamed(
-      Routes.blogsList.name,
     );
   }
 }

@@ -43,18 +43,18 @@ final GoRouter _router = GoRouter(
                 );
               },
             ),
-            GoRoute(
-              path: Routes.blogsList.name,
-              name: Routes.blogsList.name,
-              pageBuilder: (context, state) {
-                return MaterialPage(
-                  key: state.pageKey,
-                  child: const BlogsListPage(),
-                );
-              },
-            ),
           ],
         ),
+        GoRoute(
+            path: Routes.blogsList.name,
+            name: Routes.blogsList.name,
+            pageBuilder: (context, state) {
+              return MaterialPage(
+                key: state.pageKey,
+                child: const BlogsListPage(),
+              );
+            },
+            routes: const []),
       ],
     ),
   ],

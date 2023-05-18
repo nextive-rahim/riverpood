@@ -17,18 +17,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final blogDataProvider = Provider<BlogModel>(
   (ref) => throw UnimplementedError(),
 );
-final blogCategoriesDataProvider = Provider<Category>(
-  (ref) => throw UnimplementedError(),
-);
 
 final blogProvider = FutureProvider.autoDispose<List<BlogModel>>(
   (ref) async {
-    final categories = await ref.watch(blogsUseCaseProvider).blogs();
+    final blogs = await ref.read(blogsUseCaseProvider).blogs();
 
-    return categories.fold(
+    return blogs.fold(
       (l) {
         log(
-          'categoriesProvider',
+          'BlogdProvider',
           error: l,
         );
         return [];

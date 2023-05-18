@@ -1,6 +1,9 @@
 import 'package:fake_commerce/src/feature/blog/blogs/presentation/riverpod/provider.dart';
 import 'package:fake_commerce/src/feature/blog/blogs/presentation/widget/blogs_loading_shimmer.dart';
+import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/riverpod/provier.dart';
+import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/widget/blogs_categories_loading_shimmer.dart';
 import 'package:fake_commerce/src/feature/blog/root/model/blog_model.dart';
+import 'package:fake_commerce/src/feature/widget/common_dropdown_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 part '../widget/blog_card.dart';
@@ -17,18 +20,19 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      // ref.read(blogProvider);
-      // ref.read(blogProvider.notifier).bloglist();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(blogProvider);
+    final blogCategories = ref.watch(blogsCategoriesProvier);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Blogs'),
+        title: const Text(
+          'Blogs',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.grey,
         centerTitle: true,
       ),
       body:
@@ -38,23 +42,32 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
           //         ? _BlogsListBuilder(blogs: state.data!)
           //         : const Center(child: Text('Error')),
 
-          RefreshIndicator(
-        onRefresh: () async {
-          return await ref.refresh(blogProvider);
-        },
-        child: Container(
-          child: state.when(
-            data: ((data) {
-              return _BlogsListBuilder(blogs: data);
-            }),
-            error: ((error, stackTrace) {
-              return Text(error.toString());
-            }),
-            loading: (() {
-              return const BlogLoadingShimmer();
-            }),
           ),
-        ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                return await ref.refresh(blogProvider);
+              },
+              child: Container(
+                child: state.when(
+                  data: ((data) {
+                    return SingleChildScrollView(
+                      child: _BlogsListBuilder(blogs: data),
+                    );
+                  }),
+                  error: ((error, stackTrace) {
+                    return Text(
+                      error.toString(),
+                    );
+                  }),
+                  loading: (() {
+                    return const BlogLoadingShimmer();
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
