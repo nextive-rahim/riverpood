@@ -42,6 +42,31 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
           //         ? _BlogsListBuilder(blogs: state.data!)
           //         : const Center(child: Text('Error')),
 
+          Column(
+        children: [
+          Container(
+            child: blogCategories.when(
+              data: ((data) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: CommonDropdownButton(
+                    onChanged: (value) {
+                      ref.read(dropdownValueProvider.notifier).state = value!;
+                    },
+                    items: data.map((e) => e.name).toList(),
+                  ),
+                );
+              }),
+              error: ((error, stackTrace) {
+                return Text(error.toString());
+              }),
+              loading: (() {
+                return const BlogCategoriesLoadingShimmer();
+              }),
+            ),
           ),
           Expanded(
             child: RefreshIndicator(
