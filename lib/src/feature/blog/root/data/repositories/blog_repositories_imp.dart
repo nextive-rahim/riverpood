@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:fake_commerce/src/feature/blog/root/data/blog_data_source.dart';
+import 'package:fake_commerce/src/feature/blog/root/data/data_source/blog_data_source.dart';
 import 'package:fake_commerce/src/feature/blog/root/domain/repositories/blog_repository.dart';
-import 'package:fake_commerce/src/feature/blog/root/model/blog_categories_model.dart';
-import 'package:fake_commerce/src/feature/blog/root/model/blog_model.dart';
+import 'package:fake_commerce/src/feature/blog/root/data/model/blog_categories_model.dart';
+import 'package:fake_commerce/src/feature/blog/root/data/model/blog_model.dart';
 
 class BlogRepositoriesImp implements BlogRepository {
   BlogRepositoriesImp({required this.blogDataSource});

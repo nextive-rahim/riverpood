@@ -2,7 +2,7 @@ import 'package:fake_commerce/src/feature/blog/blogs/presentation/riverpod/provi
 import 'package:fake_commerce/src/feature/blog/blogs/presentation/widget/blogs_loading_shimmer.dart';
 import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/riverpod/provier.dart';
 import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/widget/blogs_categories_loading_shimmer.dart';
-import 'package:fake_commerce/src/feature/blog/root/model/blog_model.dart';
+import 'package:fake_commerce/src/feature/blog/root/data/model/blog_model.dart';
 import 'package:fake_commerce/src/feature/widget/common_dropdown_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
