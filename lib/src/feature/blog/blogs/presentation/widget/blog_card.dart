@@ -5,7 +5,7 @@ class _BlogsCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BlogModel data = ref.read(blogDataProvider);
+    BlogModel data = ref.watch(blogDataProvider);
     return Column(
       children: [
         SizedBox(

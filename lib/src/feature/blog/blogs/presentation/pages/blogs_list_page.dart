@@ -1,8 +1,8 @@
+import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/blog/blogs/presentation/riverpod/provider.dart';
 import 'package:fake_commerce/src/feature/blog/blogs/presentation/widget/blogs_loading_shimmer.dart';
 import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/riverpod/provier.dart';
 import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/widget/blogs_categories_loading_shimmer.dart';
-import 'package:fake_commerce/src/feature/blog/categories_wise_blogs.dart/riverpod/provider.dart';
 import 'package:fake_commerce/src/feature/blog/root/data/model/blog_categories_model.dart';
 import 'package:fake_commerce/src/feature/blog/root/data/model/blog_model.dart';
 import 'package:fake_commerce/src/feature/widget/common_dropdown_button.dart';
@@ -26,13 +26,8 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final blogs = ref.watch(blogProvider);
+    final state = ref.watch(blogProvider);
     final blogCategories = ref.watch(blogsCategoriesProvier);
-    final categoriesWiseProvider =
-        ref.watch(dropdownValueProvider.notifier).state != null
-            ? ref.watch(categoriesWiseBlogsProvider(
-                ref.watch(dropdownValueProvider.notifier).state!))
-            : null;
 
     return Scaffold(
       appBar: AppBar(
@@ -43,14 +38,8 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
         backgroundColor: Colors.grey,
         centerTitle: true,
       ),
-      body:
-          // state is LoadingState
-          //     ? const ProductsLoadingShimmer()
-          //     : state is SuccessState<List<BlogModel>>
-          //         ? _BlogsListBuilder(blogs: state.data!)
-          //         : const Center(child: Text('Error')),
-
-          Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             child: blogCategories.when(
@@ -62,13 +51,14 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
                   ),
                   child: CommonDropdownButton(
                     onChanged: (value) async {
-                      BlogCategoriesModel valuess =
+                      BlogCategoriesModel blogCategoriesModel =
                           data.firstWhere((element) => element.name == value);
-
-                      ref.watch(dropdownValueProvider.notifier).state =
-                          valuess.name;
-
-                      ref.watch(categoriesWiseBlogsProvider(valuess.slug!));
+                      ref.read(dropdownValueProvider.notifier).state =
+                          blogCategoriesModel.name!;
+                      ref.watch(blogProvider.notifier).bloglist(
+                            blogCategoriesModel.name,
+                            blogCategoriesModel.slug,
+                          );
                     },
                     items: data.map((e) => e.name!).toList(),
                   ),
@@ -82,46 +72,40 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
               }),
             ),
           ),
-          ref.watch(dropdownValueProvider.notifier).state != null
-              ? Expanded(
-                  child: Container(
-                    child: categoriesWiseProvider!.when(data: ((data) {
-                      return SingleChildScrollView(
-                        child: _BlogsListBuilder(blogs: data),
-                      );
-                    }), error: ((error, stackTrace) {
-                      return Text(error.toString());
-                    }), loading: (() {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    })),
-                  ),
-                )
-              : Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      return await ref.refresh(blogProvider);
-                    },
-                    child: Container(
-                      child: blogs.when(
-                        data: ((data) {
-                          return SingleChildScrollView(
-                            child: _BlogsListBuilder(blogs: data),
-                          );
-                        }),
-                        error: ((error, stackTrace) {
-                          return Text(
-                            error.toString(),
-                          );
-                        }),
-                        loading: (() {
-                          return const BlogLoadingShimmer();
-                        }),
+          Expanded(
+            child: state is LoadingState
+                ? const BlogLoadingShimmer()
+                : state is SuccessState<List<BlogModel>>
+                    ? _BlogsListBuilder(blogs: state.data!)
+                    : const Center(
+                        child: Text('Error'),
                       ),
-                    ),
-                  ),
-                ),
+          ),
+
+          //      Expanded(
+          //         child: RefreshIndicator(
+          //           onRefresh: () async {
+          //             return await ref.refresh(blogProvider);
+          //           },
+          //           child: Container(
+          //             child: blogs.when(
+          //               data: ((data) {
+          //                 return SingleChildScrollView(
+          //                   child: _BlogsListBuilder(blogs: data),
+          //                 );
+          //               }),
+          //               error: ((error, stackTrace) {
+          //                 return Text(
+          //                   error.toString(),
+          //                 );
+          //               }),
+          //               loading: (() {
+          //                 return const BlogLoadingShimmer();
+          //               }),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
         ],
       ),
     );
