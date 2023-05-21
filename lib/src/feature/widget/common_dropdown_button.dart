@@ -1,8 +1,9 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:fake_commerce/src/feature/blog/root/data/model/blog_categories_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final dropdownValueProvider = StateProvider<dynamic>((ref) {
+final dropdownValueProvider = StateProvider<String?>((ref) {
   return null;
 });
 
@@ -12,8 +13,8 @@ class CommonDropdownButton extends ConsumerStatefulWidget {
     required this.items,
     required this.onChanged,
   }) : super(key: key);
-  final List<String?> items;
-  final ValueChanged<Object?>? onChanged;
+  final List<String> items;
+  final ValueChanged<String?>? onChanged;
 
   @override
   ConsumerState<CommonDropdownButton> createState() => _MyHomePageState();
@@ -47,7 +48,7 @@ class _MyHomePageState extends ConsumerState<CommonDropdownButton> {
               .map((item) => DropdownMenuItem<String>(
                     value: item,
                     child: Text(
-                      item!,
+                      item,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,

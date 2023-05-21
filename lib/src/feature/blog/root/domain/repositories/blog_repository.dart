@@ -16,4 +16,6 @@ final blogProviderRepository = Provider(
 abstract class BlogRepository {
   Future<Either<Exception, List<BlogCategoriesModel>>> blogCategories();
   Future<Either<Exception, List<BlogModel>>> blog();
+  Future<Either<Exception, List<BlogModel>>> categoriesWiseBlogs(
+      String slug);
 }

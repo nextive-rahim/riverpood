@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fake_commerce/src/feature/blog/root/data/data_source/blog_data_source.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 class BlogDataSourceImp implements BlogDataSource {
@@ -27,8 +26,9 @@ class BlogDataSourceImp implements BlogDataSource {
 
   @override
   Future<Response> categoriesWiseBlogs(String slug) async {
-    Response response =
-        await client.get('https://api.biddabari.com/api/post-category/$slug');
+    Response response = await client
+        .get('https://api.biddabari.com/api/post-by-category/$slug');
+    print('https://api.biddabari.com/api/post-by-category/$slug');
     _logger.d(response.data);
     return response;
   }

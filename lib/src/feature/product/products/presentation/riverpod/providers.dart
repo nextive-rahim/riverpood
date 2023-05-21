@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/product/products/domain/use_cases/products_use_case.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/products_notifier.dart';
@@ -16,5 +14,7 @@ final productsProvider = StateNotifierProvider<ProductsNotifier, BaseState>(
 );
 
 final productDataProvider = Provider<ProductModel>(
-  (ref) => throw UnimplementedError(),
+  (ref) {
+    throw UnimplementedError();
+  },
 );

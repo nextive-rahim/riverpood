@@ -69,7 +69,7 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
                               .read(productsProvider.notifier)
                               .productList(isRefreshing: true);
                         },
-                        child: _ProductListBuilder(products: state.data!),
+                        child: const Text('data'),
                       ),
                     )
                   : const Center(child: Text('Error')),

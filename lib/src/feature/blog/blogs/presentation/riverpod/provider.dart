@@ -17,8 +17,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final blogDataProvider = Provider<BlogModel>(
   (ref) => throw UnimplementedError(),
 );
+final blogDataProviderDrop = Provider<BlogModel>(
+  (ref) => throw UnimplementedError(),
+);
 
-final blogProvider = FutureProvider.autoDispose<List<BlogModel>>(
+final blogProvider = FutureProvider<List<BlogModel>>(
   (ref) async {
     final blogs = await ref.read(blogsUseCaseProvider).blogs();
 
@@ -31,7 +34,7 @@ final blogProvider = FutureProvider.autoDispose<List<BlogModel>>(
         return [];
       },
       (r) {
-        ref.keepAlive();
+        //  ref.keepAlive();
         return r;
       },
     );

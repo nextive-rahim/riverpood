@@ -8,6 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final blogCategoriesDataProvider = Provider<BlogCategoriesModel>(
   (ref) => throw UnimplementedError(),
 );
+final blogCategoriesDataSlugProvider = Provider<BlogCategoriesModel>(
+  (ref) => throw UnimplementedError(),
+);
 final blogsCategoriesProvier = FutureProvider<List<BlogCategoriesModel>>(
   ((ref) async {
     final blogCategories =

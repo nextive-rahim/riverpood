@@ -2,6 +2,8 @@ import 'package:fake_commerce/src/feature/blog/blogs/presentation/riverpod/provi
 import 'package:fake_commerce/src/feature/blog/blogs/presentation/widget/blogs_loading_shimmer.dart';
 import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/riverpod/provier.dart';
 import 'package:fake_commerce/src/feature/blog/blogs_categories/presentation/widget/blogs_categories_loading_shimmer.dart';
+import 'package:fake_commerce/src/feature/blog/categories_wise_blogs.dart/riverpod/provider.dart';
+import 'package:fake_commerce/src/feature/blog/root/data/model/blog_categories_model.dart';
 import 'package:fake_commerce/src/feature/blog/root/data/model/blog_model.dart';
 import 'package:fake_commerce/src/feature/widget/common_dropdown_button.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,14 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(blogProvider);
+    final blogs = ref.watch(blogProvider);
     final blogCategories = ref.watch(blogsCategoriesProvier);
+    final categoriesWiseProvider =
+        ref.watch(dropdownValueProvider.notifier).state != null
+            ? ref.watch(categoriesWiseBlogsProvider(
+                ref.watch(dropdownValueProvider.notifier).state!))
+            : null;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -53,10 +61,16 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
                     vertical: 8,
                   ),
                   child: CommonDropdownButton(
-                    onChanged: (value) {
-                      ref.read(dropdownValueProvider.notifier).state = value!;
+                    onChanged: (value) async {
+                      BlogCategoriesModel valuess =
+                          data.firstWhere((element) => element.name == value);
+
+                      ref.watch(dropdownValueProvider.notifier).state =
+                          valuess.name;
+
+                      ref.watch(categoriesWiseBlogsProvider(valuess.slug!));
                     },
-                    items: data.map((e) => e.name).toList(),
+                    items: data.map((e) => e.name!).toList(),
                   ),
                 );
               }),
@@ -68,30 +82,46 @@ class _BlogsListPageState extends ConsumerState<BlogsListPage> {
               }),
             ),
           ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                return await ref.refresh(blogProvider);
-              },
-              child: Container(
-                child: state.when(
-                  data: ((data) {
-                    return SingleChildScrollView(
-                      child: _BlogsListBuilder(blogs: data),
-                    );
-                  }),
-                  error: ((error, stackTrace) {
-                    return Text(
-                      error.toString(),
-                    );
-                  }),
-                  loading: (() {
-                    return const BlogLoadingShimmer();
-                  }),
+          ref.watch(dropdownValueProvider.notifier).state != null
+              ? Expanded(
+                  child: Container(
+                    child: categoriesWiseProvider!.when(data: ((data) {
+                      return SingleChildScrollView(
+                        child: _BlogsListBuilder(blogs: data),
+                      );
+                    }), error: ((error, stackTrace) {
+                      return Text(error.toString());
+                    }), loading: (() {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    })),
+                  ),
+                )
+              : Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      return await ref.refresh(blogProvider);
+                    },
+                    child: Container(
+                      child: blogs.when(
+                        data: ((data) {
+                          return SingleChildScrollView(
+                            child: _BlogsListBuilder(blogs: data),
+                          );
+                        }),
+                        error: ((error, stackTrace) {
+                          return Text(
+                            error.toString(),
+                          );
+                        }),
+                        loading: (() {
+                          return const BlogLoadingShimmer();
+                        }),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
         ],
       ),
     );

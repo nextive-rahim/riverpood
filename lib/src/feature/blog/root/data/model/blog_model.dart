@@ -8,27 +8,19 @@ String? blogResponseModelToJson(BlogResponseModel data) =>
 
 class BlogResponseModel {
   List<BlogModel>? data;
-  Links? links;
-  Meta? meta;
 
   BlogResponseModel({
     this.data,
-    this.links,
-    this.meta,
   });
 
   factory BlogResponseModel.fromJson(Map<String?, dynamic> json) =>
       BlogResponseModel(
         data: List<BlogModel>.from(
             json["data"].map((x) => BlogModel.fromJson(x))),
-        links: Links.fromJson(json["links"]),
-        meta: Meta.fromJson(json["meta"]),
       );
 
   Map<String?, dynamic> toJson() => {
         "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-        "links": links!.toJson(),
-        "meta": meta!.toJson(),
       };
 }
 
@@ -50,7 +42,7 @@ class BlogModel {
   int? commentCount;
   bool? liked;
   List<dynamic>? likes;
-  List<Category>? categories;
+
   List<Comment>? comments;
   User? user;
 
@@ -72,7 +64,6 @@ class BlogModel {
     this.commentCount,
     this.liked,
     this.likes,
-    this.categories,
     this.comments,
     this.user,
   });
@@ -95,8 +86,6 @@ class BlogModel {
         commentCount: json["comment_count"],
         liked: json["liked"],
         likes: List<dynamic>.from(json["likes"].map((x) => x)),
-        categories: List<Category>.from(
-            json["categories"].map((x) => Category.fromJson(x))),
         comments: List<Comment>.from(
             json["comments"].map((x) => Comment.fromJson(x))),
         user: User.fromJson(json["user"]),
@@ -120,55 +109,8 @@ class BlogModel {
         "comment_count": commentCount,
         "liked": liked,
         "likes": List<dynamic>.from(likes!.map((x) => x)),
-        "categories": List<dynamic>.from(categories!.map((x) => x.toJson())),
         "comments": List<dynamic>.from(comments!.map((x) => x.toJson())),
         "user": user!.toJson(),
-      };
-}
-
-class Category {
-  int? id;
-  dynamic parentId;
-  String? name;
-  String? slug;
-  dynamic photo;
-  int? order;
-  bool? active;
-  List<dynamic>? children;
-  int? childrenCount;
-
-  Category({
-    this.id,
-    this.parentId,
-    this.name,
-    this.slug,
-    this.photo,
-    this.order,
-    this.active,
-    this.children,
-    this.childrenCount,
-  });
-
-  factory Category.fromJson(Map<String?, dynamic> json) => Category(
-        id: json["id"],
-        parentId: json["parent_id"],
-        name: json["name"],
-        slug: json["slug"],
-        photo: json["photo"],
-        order: json["order"],
-        active: json["active"],
-        childrenCount: json["children_count"],
-      );
-
-  Map<String?, dynamic> toJson() => {
-        "id": id,
-        "parent_id": parentId,
-        "name": name,
-        "slug": slug,
-        "photo": photo,
-        "order": order,
-        "active": active,
-        "children_count": childrenCount,
       };
 }
 
@@ -284,101 +226,5 @@ class User {
         "isAffiliate": isAffiliate,
         "guardians_phone": guardiansPhone,
         "second_timer": secondTimer,
-      };
-}
-
-class Links {
-  String? first;
-  String? last;
-  dynamic prev;
-  dynamic next;
-
-  Links({
-    this.first,
-    this.last,
-    this.prev,
-    this.next,
-  });
-
-  factory Links.fromJson(Map<String?, dynamic> json) => Links(
-        first: json["first"],
-        last: json["last"],
-        prev: json["prev"],
-        next: json["next"],
-      );
-
-  Map<String?, dynamic> toJson() => {
-        "first": first,
-        "last": last,
-        "prev": prev,
-        "next": next,
-      };
-}
-
-class Meta {
-  int? currentPage;
-  int? from;
-  int? lastPage;
-  List<Link>? links;
-  String? path;
-  int? perPage;
-  int? to;
-  int? total;
-
-  Meta({
-    this.currentPage,
-    this.from,
-    this.lastPage,
-    this.links,
-    this.path,
-    this.perPage,
-    this.to,
-    this.total,
-  });
-
-  factory Meta.fromJson(Map<String?, dynamic> json) => Meta(
-        currentPage: json["current_page"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-        path: json["path"],
-        perPage: json["per_page"],
-        to: json["to"],
-        total: json["total"],
-      );
-
-  Map<String?, dynamic> toJson() => {
-        "current_page": currentPage,
-        "from": from,
-        "last_page": lastPage,
-        "links": List<dynamic>.from(links!.map((x) => x.toJson())),
-        "path": path,
-        "per_page": perPage,
-        "to": to,
-        "total": total,
-      };
-}
-
-class Link {
-  String? url;
-  String? label;
-  bool? active;
-
-  Link({
-    this.url,
-    this.label,
-    this.active,
-  });
-
-  factory Link.fromJson(Map<String?, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
-      );
-
-  Map<String?, dynamic> toJson() => {
-        "url": url,
-        "label": label,
-        "active": active,
       };
 }

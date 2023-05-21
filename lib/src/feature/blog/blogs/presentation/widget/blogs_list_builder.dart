@@ -1,13 +1,13 @@
 part of '../pages/blogs_list_page.dart';
 
-class _BlogsListBuilder extends StatelessWidget {
+class _BlogsListBuilder extends ConsumerWidget {
   const _BlogsListBuilder({
     Key? key,
     required this.blogs,
   }) : super(key: key);
   final List<BlogModel> blogs;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 20),

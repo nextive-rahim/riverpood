@@ -8,27 +8,6 @@ import 'package:fake_commerce/src/feature/blog/root/data/model/blog_categories_m
 import 'package:fake_commerce/src/feature/blog/root/data/model/blog_model.dart';
 
 class BlogRepositoriesImp implements BlogRepository {
-  BlogRepositoriesImp({required this.blogDataSource});
-  final BlogDataSource blogDataSource;
-  @override
-  Future<Either<Exception, List<BlogModel>>> blog() async {
-    try {
-      Response response = await blogDataSource.blogsList();
-
-      BlogResponseModel blogResponseModel =
-          BlogResponseModel.fromJson(response.data);
-      List<BlogModel> blogs = blogResponseModel.data!; 
-      return Right(blogs);
-    } catch (e, stackTrace) {
-      log(
-        'BlogRepositoryImpl.blogList',
-        error: e,
-        stackTrace: stackTrace,
-      );
-      return Left(Exception(e));
-    }
-  }
-
   /// Blog Categories
   @override
   Future<Either<Exception, List<BlogCategoriesModel>>> blogCategories() async {
@@ -49,6 +28,48 @@ class BlogRepositoriesImp implements BlogRepository {
       return Left(
         Exception(e),
       );
+    }
+  }
+
+  /// Blogs
+  BlogRepositoriesImp({required this.blogDataSource});
+  final BlogDataSource blogDataSource;
+  @override
+  Future<Either<Exception, List<BlogModel>>> blog() async {
+    try {
+      Response response = await blogDataSource.blogsList();
+
+      BlogResponseModel blogResponseModel =
+          BlogResponseModel.fromJson(response.data);
+      List<BlogModel> blogs = blogResponseModel.data!;
+      return Right(blogs);
+    } catch (e, stackTrace) {
+      log(
+        'BlogRepositoryImpl.blogList',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return Left(Exception(e));
+    }
+  }
+
+  /// Categories Wise Blogs
+  @override
+  Future<Either<Exception, List<BlogModel>>> categoriesWiseBlogs(
+      String slug) async {
+    Response response = await blogDataSource.categoriesWiseBlogs(slug);
+    try {
+      BlogResponseModel blogResponseModel =
+          BlogResponseModel.fromJson(response.data);
+      List<BlogModel> blogs = blogResponseModel.data!;
+      return Right(blogs);
+    } catch (e, strackTrace) {
+      log(
+        'BlogRepositoryImpl.categoriesWiseBlogs',
+        error: e,
+        stackTrace: strackTrace,
+      );
+      return Left(Exception(e));
     }
   }
 }
